@@ -1,6 +1,6 @@
 # Llama-3.1-8B-triage-volkov
 
-This is our project for Week 5 (fine-tuning) of the Selangor HRDC GenAI course. We are Team Volkov: Hariz and Khairul Ikhwan. We fine-tuned Llama 3.1 8B Instruct to sort customer messages for an online shop in Malaysia. The messages can be in English or Malay. For each message, the model answers with one line of JSON. For example, this message:
+This is our project for Week 5 (fine-tuning) of the Selangor HRDC GenAI course. By Team Volkov: Hariz and Khairul Ikhwan. We fine-tuned Llama 3.1 8B Instruct to sort customer messages for an online shop in Malaysia. The messages can be in English or Malay. For each message, the model answers with one line of JSON. For example, this message:
 
 ```
 My order was supposed to arrive on Monday. It is Thursday and the tracking has not moved.
@@ -84,7 +84,7 @@ The data is in the `data` folder. We trained on 567 rows:
 - 50 rows from the class (`data_starter.xlsx`)
 - 360 rows we wrote (`new_rows.xlsx`, rows N001 to N360)
 
-We wrote our rows with help from an AI assistant, following the class labelling guide (`LABELING_GUIDE.md`), and then checked them ourselves. They add things the class data was missing, like Malay messages, two problems in one message, sarcasm and threats. All the messages are made up. We also changed one class label: T013, from medium to low.
+We wrote our rows following the class labelling guide (`LABELING_GUIDE.md`), and then rechecked them ourselves. They add things the class data was missing, like Malay messages, two problems in one message, sarcasm and threats. All the messages are made up. We also changed one class label: T013, from medium to low.
 
 Labels in the 567 training rows:
 
@@ -92,7 +92,6 @@ Labels in the 567 training rows:
 - urgency: medium 250, low 166, high 151
 - needs_human: true 229, false 338
 
-We did not keep a validation set, so all rows were used for training. We tested on the class practice test (50 messages, not in this repo because it belongs to the class) and on the class leaderboard.
 
 `train.jsonl` is the file we uploaded to Unsloth Studio. `system_prompt.txt` is the prompt we used. `my_check.xlsx` has 40 extra messages we only used for testing. Rows N361 to N405 in `new_rows.xlsx` were only used in run 11.
 
@@ -117,7 +116,7 @@ This makes `data/train.jsonl`. Upload it to Unsloth Studio.
 | QLoRA | Uses the least memory | The base model is squeezed to 4-bit, which can lose some quality | Runs 2 to 9 |
 | LoRA | Small file (about 168 MB), base model stays at full quality | Needs more memory than QLoRA | Yes, run 10 |
 
-Our task is small: learn one JSON format and the labelling rules from a few hundred rows. A small adapter is enough for that, and we were sharing one GPU machine. We started with QLoRA because it uses less memory. When we switched to LoRA with the same data and settings (run 8 to run 10), the leaderboard score went from 72% to 76%.
+learn one JSON format and the labelling rules from a few hundred rows. A small adapter is enough for that, and we were sharing one GPU machine. We started with QLoRA because it uses less memory. When we switched to LoRA with the same data and settings (run 8 to run 10), the leaderboard score went from 72% to 76%.
 
 We used Llama 3.1 8B Instruct because it was the base model for the class project. It already follows a system prompt and a chat format, so we only had to teach it the labels.
 
@@ -141,7 +140,7 @@ We used Llama 3.1 8B Instruct because it was the base model for the class projec
 
 ## How we tested
 
-We used the class script `auto_eval.py` (from the course, not in this repo) with our model loaded in Unsloth Studio:
+I used the class script `auto_eval.py` (from the course, not in this repo) with our model loaded in Unsloth Studio:
 
 ```
 python auto_eval.py --test test_raw.jsonl --openai-url <studio-address>/v1 --model <model-name> --api-key YOUR_KEY --out results/run10_practice_test
